@@ -757,8 +757,7 @@ var sldsIconRoutingOffline = Vue.component("lightning-icon-routing-offline", { t
 </script>
 <template id="template-lightning-progress-bar">
 	<div>
-		<lightning-toast v-if="percent == 100" :type="'warning'">Current activity information is out of date</lightning-toast>
-		<div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small" id="progress-bar-label-id-5">
+		<div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
 			<span>{{title}}</span>
 			<span aria-hidden="true">
 				<strong>{{percent}}% Complete</strong>

@@ -6,6 +6,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 		$content = trim(file_get_contents("php://input"));
 		$decoded = json_decode($content, true);
 		if($decoded['action'] == 'updateTracker') {
+			// security check on write?
 			echo file_put_contents('./trackers/'. $decoded['tracker']['hash'] .'.json', json_encode($decoded['tracker']).',') ? 'success' : 'error';
 			die();
 		}
@@ -38,6 +39,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 	<template id="template-updateTracker">
 		<lightning-card :title="'Update tracker for ' + tracker.name">
 			<lightning-spinner v-if="showProgress"></lightning-spinner>
+			<h2 v-if="message != ''">{{message}}</h2>
 			<div class="slds-grid">
 				<lightning-col><lightning-input v-model="tracker.task" label="Task Label"></lightning-input></lightning-col>
 				<lightning-col><lightning-picklist v-model="tracker.length" :options="lengthOptions" title="Length of Time"></lightning-picklist></lightning-col>
@@ -49,11 +51,12 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 	<template id="template-vueTracker">
 		<lightning-tile>
 			<h1 :class="'slds-text-heading_large ' + (remainingTime < 6 ? 'slds-text-color_error' : 'slds-text-color_success')" style="font-weight: bold">
-				{{ tracker.task }} {{tracker.hash}}
+				{{ tracker.task }}
 				<span :class="'slds-badge' + (tracker.flexibility=='Flexible' ? '':' slds-badge_inverse' )" style="float:right">{{ tracker.flexibility }}</span>
 			</h1>
 			{{ tracker.name }}
 			<h4>Time Remaining: {{ remainingTime }}</h4>
+			<lightning-toast v-if="percentRemainingTime == 100" type="warning" style="margin-top:2rem">Current activity information is out of date</lightning-toast>
 			<lightning-progress-bar :title="'Progress'" :percent="percentRemainingTime"></lightning-progress-bar>
 		</lightning-tile>
 	</template>
@@ -67,6 +70,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 			props: ['trackerHash'],
 			data() { return {
 				tracker: {},
+				message: '',
 				showProgress: false,
 				lengthOptions: [
 					{title: '15 Minutes', value: 15},
@@ -90,13 +94,18 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 						tracker: this.tracker,
 					}
 					this.showProgress = true
+					this.message = ''
 					axios.post(url, requestData)
 						.then(result => {
-console.log(result)
+							if(result.data == 'success')
+								router.push('/')
+							else
+								this.message = "There was an error saving your tracker, please try again"
 							this.showProgress = false
 						})
 						.catch(error => {
 							console.log("error", error)
+							this.message = "There was an error saving your tracker, please try again"
 							this.showProgress = false
 						})
 				},
