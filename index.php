@@ -17,7 +17,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 <html>
 <head>
 	<title>Que Hace</title>
-	<meta http-equiv="refresh" content="5;url=/" />
+	<meta http-equiv="refresh" content="120;url=/" />
 <!-- fix refresh when on edit page -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.9.3/styles/salesforce-lightning-design-system.min.css" />
 	<script src="https://unpkg.com/axios/dist/axios.js"></script>
@@ -26,6 +26,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 	<?= file_get_contents('slds.vue'); ?>
 	<style>
 .slds-card__body { width: 100%; }
+.slds-notify_toast { padding:.75rem !important;min-width:10rem !important; }
 	</style>
 	<script>
 	$TRACKERS = [
@@ -61,7 +62,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 			</h1>
 			{{ tracker.name }}
 			<h4>Time Remaining: {{ remainingTime }}</h4>
-			<lightning-toast v-if="percentRemainingTime == 100" type="warning" style="margin-top:2rem">Current activity information is out of date</lightning-toast>
+			<lightning-toast v-if="percentRemainingTime == 100" type="warning" style="margin-top:2rem;padding:.75rem;min-width:10rem">Current activity information is out of date</lightning-toast>
 			<lightning-progress-bar :title="'Progress'" :percent="percentRemainingTime"></lightning-progress-bar>
 		</lightning-tile>
 	</template>
