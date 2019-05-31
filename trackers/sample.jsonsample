@@ -1,0 +1,8 @@
+{
+	name: 'Name',
+	hash: 'HashThatIsAlsoFileName',
+	fromTime: "2019-05-29T22:10",
+	length: 15,
+	task: 'Task label',
+	flexibility: 'Focused/Flexible/etc',
+},
