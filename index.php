@@ -17,6 +17,8 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 <html>
 <head>
 	<title>Que Hace</title>
+	<meta http-equiv="refresh" content="5;url=/" />
+<!-- fix refresh when on edit page -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/design-system/2.9.3/styles/salesforce-lightning-design-system.min.css" />
 	<script src="https://unpkg.com/axios/dist/axios.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
@@ -150,4 +152,3 @@ var app = new Vue({
 })
 	</script>
 </body>
-</html>
