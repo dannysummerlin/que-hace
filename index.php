@@ -22,6 +22,9 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	<?= file_get_contents('slds.vue'); ?>
+	<style>
+.slds-card__body { width: 100%; }
+	</style>
 	<script>
 	$TRACKERS = [
 		<?php
@@ -30,7 +33,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
 	]
 	</script>
 	<template id="template-workingBoard">
-		<lightning-card>
+		<lightning-card style="display:flex">
 			<lightning-tiles style="width:100%">
 				<vue-tracker v-for="tracker in progressTrackers" :tracker="tracker" :key="tracker.hash"></vue-tracker>
 			</lightning-tiles>
